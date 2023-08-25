@@ -1,0 +1,4 @@
+dist
+assets/token.json
+.idea
+node_modules

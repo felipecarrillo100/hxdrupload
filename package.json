@@ -1,0 +1,26 @@
+{
+  "name": "hxdrupload",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon src/main.ts",
+    "build": "tsc -p .",
+    "run": "npm run build && node dist/main.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@apollo/client": "^3.0.0",
+    "cross-fetch": "^4.0.0",
+    "node-fetch": "^3.3.2",
+    "react": "^18.2.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.5.1",
+    "@types/react": "^18.2.15",
+    "nodemon": "^3.0.1",
+    "ts-node": "^10.9.1",
+    "typescript": "^5.1.6"
+  }
+}
