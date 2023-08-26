@@ -12,13 +12,15 @@ AppSettings.setToken(inputs.token);
 
 initializeGraphQlClient();
 
-const files = getFileInfoFromFolder("C:\\git\\ortho2obj\\outputsingletile");
+//const files = getFileInfoFromFolder("C:\\git\\ortho2obj\\outputsingletile");
+const files = getFileInfoFromFolder("C:\\git\\ortho2obj\\outputscale5");
+
 const targetFiles = files.filter(f=>validExtension(f.name, ["jpg", "obj", "mtl", "prj"]));
 
 for(const file of targetFiles) {
    console.log(JSON.stringify(file));
 }
 
-uploadFiles("newfolder2", "mynewobj2", targetFiles);
+uploadFiles("newfolder3", "mynewobj2", targetFiles);
 
 console.log("Program has finished!!");

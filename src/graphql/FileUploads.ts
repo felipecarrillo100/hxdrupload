@@ -11,7 +11,7 @@ import {
 
 // const MAX_CHUNK_SIZE =  50000000;
 // const MAX_CHUNK_SIZE =  10485760;  // 10 MB
-const MAX_CHUNK_SIZE =  1048576; // 1 MB
+const MAX_CHUNK_SIZE =  5242880; // 1 MB
 
 
 async function addFile(file: FilesInFolder, assetId: string) {
