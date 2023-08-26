@@ -1,6 +1,7 @@
 import fetch  from "cross-fetch";
 import fs from "fs";
 import {ETAGCHUNK, URLCHUNK} from "../graphql/MutationLibrary";
+import {fetchRetry} from "../fetchretry/fetchretry";
 const mime = require('mime');
 
 export function uploadFileInChunks(urlchunks:URLCHUNK[], file: string, chunkSize: number, counter: number) {
@@ -10,7 +11,7 @@ export function uploadFileInChunks(urlchunks:URLCHUNK[], file: string, chunkSize
 
         function processChunk(url: string, chunk: any, part: number) {
             return new Promise(resolve => {
-                fetch(url, {
+                fetchRetry(url, 100, 5, {
                     method: 'PUT',
                     body: chunk,
                     headers: {

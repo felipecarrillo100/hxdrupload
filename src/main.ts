@@ -14,8 +14,8 @@ initializeGraphQlClient();
 
 //const files = getFileInfoFromFolder("C:\\git\\ortho2obj\\outputsingletile");
 // const files = getFileInfoFromFolder("C:\\git\\ortho2obj\\outputscale5");
-const files = getFileInfoFromFolder("C:\\git\\ortho2obj\\outputfull");
-
+// const files = getFileInfoFromFolder("C:\\git\\ortho2obj\\outputfull");
+const files = getFileInfoFromFolder("C:\\git\\ortho2obj\\output100jpg");
 
 const targetFiles = files.filter(f=>validExtension(f.name, ["jpg", "obj", "mtl", "prj", "png"]));
 
@@ -23,6 +23,6 @@ for(const file of targetFiles) {
    console.log(JSON.stringify(file));
 }
 
-uploadFiles("newfolder4", "objfull", targetFiles);
+uploadFiles("newfolder12", "obj100jpg", targetFiles);
 
 console.log("Program has finished!!");
