@@ -63,30 +63,51 @@ function uploadFileInParts(fileId: string, file: FilesInFolder) {
 
 
 
-export async function uploadFiles(folderName: string, assetName: string, files: FilesInFolder[]) {
+export async function uploadFiles(options: {
+    folderName: string;
+    assetName: string;
+    files: FilesInFolder[],
+    projectId: string;
+    parentFolderId: string;
+}) {
+    const folderName = options.folderName;
+    const assetName = options.assetName;
+    const files = options.files;
 
     const createFolderResult = await createFolder({
         name: folderName,
-        projectId: "301dd3ab-76cc-4ac7-9786-a8bc015d2cad",
-        parentFolderId: "647dc49f-4696-4660-941e-8eb4ed66dccf"
+        projectId: options.projectId,
+        parentFolderId: options.parentFolderId
     });
 
+    // Expects: __typename===FolderOutput
     if (createFolderResult.data.createFolderV2.__typename === "FolderErrorDuplicateNameOutput") {
         console.log("Folder already exists!");
+    }
+    if (createFolderResult.data.createFolderV2.__typename === "FolderErrorOperationNotAllowedOutput"){
+        console.log("Create folder not allowed!");
+        return;
     }
     const folderId = createFolderResult.data.createFolderV2.id;
     console.log(`Folder id: ${folderId}`);
 
 
     const createAssetResult = await createAsset({
-        folderId: folderId,
+        // folderId: folderId,
+        folderId: options.parentFolderId,
         name: assetName,
         assetType: "OBJ_UPLOAD",
         // assetType: "COARSE_REGISTRATION_UPLOAD",
         });
 
+    // Expects: __typename===GroupedAssetOutput
     if (createAssetResult.data.createAssetV2.__typename === "AssetErrorDuplicateNameOutput") {
         console.log("Asset with that name already exists!");
+        return;
+    }
+
+    if (createAssetResult.data.createAssetV2.__typename === "AssetErrorOperationNotAllowedOutput"){
+        console.log("Create asset not allowed!");
         return;
     }
 

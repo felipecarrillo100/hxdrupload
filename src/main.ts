@@ -23,6 +23,12 @@ for(const file of targetFiles) {
    console.log(JSON.stringify(file));
 }
 
-uploadFiles("newfolder12", "obj100jpg", targetFiles);
+uploadFiles({
+   folderName:"newfolder18",
+   assetName: "obj100jpg",
+   files: targetFiles,
+   projectId:"301dd3ab-76cc-4ac7-9786-a8bc015d2cad",
+   parentFolderId:"647dc49f-4696-4660-941e-8eb4ed66dccf"
+});
 
 console.log("Program has finished!!");
