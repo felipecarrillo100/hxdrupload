@@ -2,7 +2,7 @@ import {getFileInfoFromFolder} from "./graphql/GetFilesInFolder";
 import {validExtension} from "./fileupload/fileutils";
 import {uploadFiles} from "./graphql/FileUploads";
 import {AppSettings} from "./settings/AppSettings";
-import {initializeGraphQlClient} from "./graphql/MutationLibrary";
+import {AssetTypeEnum, initializeGraphQlClient} from "./graphql/MutationLibrary";
 import {Command} from "commander";
 
 const fs = require('fs');
@@ -59,13 +59,13 @@ program.parse();
 
 
 function produceTemplate( options: any) {
-    let assetType = "OBJ_UPLOAD";
+    let assetType = AssetTypeEnum.OBJ_UPLOAD;
     switch (options.type.toLowerCase()) {
         case "las":
-            assetType = "LAS_UPLOAD"
+            assetType = AssetTypeEnum.LAS_UPLOAD
             break;
         case "e57":
-            assetType = "E57_UPLOAD"
+            assetType = AssetTypeEnum.E57_UPLOAD
             break;
         default:
 

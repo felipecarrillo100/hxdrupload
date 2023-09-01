@@ -8,6 +8,12 @@ import {
     FinalizeAsset
 } from "./graphql.mutations";
 
+
+export enum AssetTypeEnum {
+    OBJ_UPLOAD="OBJ_UPLOAD",
+    E57_UPLOAD="E57_UPLOAD",
+    LAS_UPLOAD="LAS_UPLOAD",
+}
 export interface ETAGCHUNK {
     "part": number;
     "etag": string;
@@ -40,7 +46,7 @@ export function createFolder(params: {
 export function createAssetV2(params: {
     folderId: string;
     name: string;
-    assetType: string;
+    assetType: AssetTypeEnum;
 }) {
     return client.mutate({
         mutation: CreateAssetV2,
@@ -53,7 +59,7 @@ export function createAssetV2(params: {
 export function createAssetV3(params: {
     folderId: string;
     name: string;
-    assetType: string;
+    assetType: AssetTypeEnum;
 }) {
     return client.mutate({
         mutation: CreateAssetV3,

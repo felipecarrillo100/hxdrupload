@@ -1,7 +1,7 @@
 import {FilesInFolder} from "./GetFilesInFolder";
 import {uploadFileInChunks} from "../fileupload/upload";
 import {
-    addFileToAsset,
+    addFileToAsset, AssetTypeEnum,
     CompleteChunkUpload,
     createAssetV2, createAssetV3,
     createFolder, ETAGCHUNK,
@@ -69,7 +69,7 @@ export async function uploadFiles(options: {
     files: FilesInFolder[],
     projectId: string;
     parentFolderId: string;
-    assetType: string;
+    assetType: AssetTypeEnum;
 }) {
     const folderName = options.folderName;
     const assetName = options.assetName;
@@ -120,12 +120,12 @@ export async function uploadFiles(options: {
 
     // Expects: __typename===GroupedAssetOutput
     if (createAssetResultObject.__typename === "AssetErrorDuplicateNameOutput") {
-        console.log("Asset with that name already exists!");
+        console.log(`Asset with name ${assetName} already exists!`);
         return;
     }
 
     if (createAssetResultObject.__typename === "AssetErrorOperationNotAllowedOutput"){
-        console.log("Create asset not allowed! Verify your token");
+        console.log("Create asset not allowed! Verify your token and quotes");
         return;
     }
 
