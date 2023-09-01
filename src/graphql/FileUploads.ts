@@ -3,7 +3,7 @@ import {uploadFileInChunks} from "../fileupload/upload";
 import {
     addFileToAsset,
     CompleteChunkUpload,
-    createAsset,
+    createAssetV2, createAssetV3,
     createFolder, ETAGCHUNK,
     FileUploadSignedUrl,
     TriggerPipeline, URLCHUNK
@@ -76,7 +76,7 @@ export async function uploadFiles(options: {
     const files = options.files;
 
     const assetType = options.assetType;
-    if (!(assetType === "OBJ_UPLOAD" || assetType === "OBJ_UPLOAD")) {
+    if (!(assetType === "E57_UPLOAD" || assetType === "OBJ_UPLOAD" || assetType === "LAS_UPLOAD")) {
         console.log("Invalid upload asset type:" + assetType)
         return;
     }
@@ -103,24 +103,32 @@ export async function uploadFiles(options: {
     }
 
 
-    const createAssetResult = await createAsset({
+    // const createAssetResult = await createAssetV2({
+    //     folderId,
+    //     name: assetName,
+    //     assetType,
+    //     });
+    const createAssetResult = await createAssetV3({
         folderId,
         name: assetName,
         assetType,
-        });
+    });
+
+    // const createAssetResultObject = createAssetResult.data.createAssetV2;
+    const createAssetResultObject = createAssetResult.data.createAssetV3;
 
     // Expects: __typename===GroupedAssetOutput
-    if (createAssetResult.data.createAssetV2.__typename === "AssetErrorDuplicateNameOutput") {
+    if (createAssetResultObject.__typename === "AssetErrorDuplicateNameOutput") {
         console.log("Asset with that name already exists!");
         return;
     }
 
-    if (createAssetResult.data.createAssetV2.__typename === "AssetErrorOperationNotAllowedOutput"){
+    if (createAssetResultObject.__typename === "AssetErrorOperationNotAllowedOutput"){
         console.log("Create asset not allowed! Verify your token");
         return;
     }
 
-    const assetId = createAssetResult.data.createAssetV2.id;
+    const assetId = createAssetResultObject.id;
     console.log(`Asset id: ${assetId}`);
 
 

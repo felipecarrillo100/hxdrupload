@@ -111,7 +111,7 @@ function startUpload(jsonfile: string, token: string, options: any) {
         return;
     }
     const files = getFileInfoFromFolder(inputs.inputFolder);
-    const targetFiles = files.filter(f=>validExtension(f.name, ["jpg", "obj", "mtl", "prj", "png", "e57"]));
+    const targetFiles = files.filter(f=>validExtension(f.name, ["jpg", "obj", "mtl", "prj", "png", "e57", "las", "laz"]));
 
     console.log(`A total of ${targetFiles.length} were found`)
 

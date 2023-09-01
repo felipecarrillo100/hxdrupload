@@ -1,7 +1,7 @@
 import {CreateClient} from "./GraphqlClient";
 import {
     CompleteAssetFile,
-    CreateAsset,
+    CreateAssetV2, CreateAssetV3,
     CreateFileInAsset,
     CreateFolder, DeleteFolder,
     FileUploadURL,
@@ -37,13 +37,26 @@ export function createFolder(params: {
     });
 }
 
-export function createAsset(params: {
+export function createAssetV2(params: {
     folderId: string;
     name: string;
     assetType: string;
 }) {
     return client.mutate({
-        mutation: CreateAsset,
+        mutation: CreateAssetV2,
+        variables: {
+            params: params
+        }
+    });
+}
+
+export function createAssetV3(params: {
+    folderId: string;
+    name: string;
+    assetType: string;
+}) {
+    return client.mutate({
+        mutation: CreateAssetV3,
         variables: {
             params: params
         }
