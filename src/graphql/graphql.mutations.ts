@@ -30,7 +30,7 @@ export const FileUploadURL = gql`query presignedUrl($fileId: ID!, $chunkIndex: I
   }
 }`;
 
-export const CompleteAsset = gql`mutation finalizeAssetFile($params: MultipartUploadCompleteInput!) {
+export const CompleteAssetFile = gql`mutation finalizeAssetFile($params: MultipartUploadCompleteInput!) {
   completeMultipartUpload(params: $params) {
     executed
     __typename

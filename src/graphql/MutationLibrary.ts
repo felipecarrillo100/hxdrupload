@@ -1,6 +1,6 @@
 import {CreateClient} from "./GraphqlClient";
 import {
-    CompleteAsset,
+    CompleteAssetFile,
     CreateAsset,
     CreateFileInAsset,
     CreateFolder, DeleteFolder,
@@ -78,7 +78,7 @@ export function FileUploadSignedUrl( parameters: {fileId: string, partNumber: nu
 
 export async function CompleteChunkUpload(params: {fileId: string; multipartUploadsETags: ETAGCHUNK[]}) {
     return  client.mutate({
-        mutation: CompleteAsset,
+        mutation: CompleteAssetFile,
         variables: {
             params: params
         }

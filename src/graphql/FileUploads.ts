@@ -85,7 +85,7 @@ export async function uploadFiles(options: {
         console.log("Folder already exists!");
     }
     if (createFolderResult.data.createFolderV2.__typename === "FolderErrorOperationNotAllowedOutput"){
-        console.log("Create folder not allowed!");
+        console.log("Create folder not allowed! Verify your token");
         return;
     }
     const folderId = createFolderResult.data.createFolderV2.id;
@@ -107,7 +107,7 @@ export async function uploadFiles(options: {
     }
 
     if (createAssetResult.data.createAssetV2.__typename === "AssetErrorOperationNotAllowedOutput"){
-        console.log("Create asset not allowed!");
+        console.log("Create asset not allowed! Verify your token");
         return;
     }
 
