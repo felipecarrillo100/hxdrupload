@@ -1,4 +1,6 @@
 dist
 assets/token.json
+upload*.json
+toke*.json
 .idea
 node_modules

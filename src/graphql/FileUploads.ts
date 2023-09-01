@@ -69,35 +69,44 @@ export async function uploadFiles(options: {
     files: FilesInFolder[],
     projectId: string;
     parentFolderId: string;
+    assetType: string;
 }) {
     const folderName = options.folderName;
     const assetName = options.assetName;
     const files = options.files;
 
-    const createFolderResult = await createFolder({
-        name: folderName,
-        projectId: options.projectId,
-        parentFolderId: options.parentFolderId
-    });
-
-    // Expects: __typename===FolderOutput
-    if (createFolderResult.data.createFolderV2.__typename === "FolderErrorDuplicateNameOutput") {
-        console.log("Folder already exists!");
-    }
-    if (createFolderResult.data.createFolderV2.__typename === "FolderErrorOperationNotAllowedOutput"){
-        console.log("Create folder not allowed! Verify your token");
+    const assetType = options.assetType;
+    if (!(assetType === "OBJ_UPLOAD" || assetType === "OBJ_UPLOAD")) {
+        console.log("Invalid upload asset type:" + assetType)
         return;
     }
-    const folderId = createFolderResult.data.createFolderV2.id;
-    console.log(`Folder id: ${folderId}`);
+
+    let folderId = options.parentFolderId;
+    if (folderName) {
+        console.log(`Creating folder ${folderName}`)
+        const createFolderResult = await createFolder({
+            name: folderName,
+            projectId: options.projectId,
+            parentFolderId: options.parentFolderId
+        });
+
+        // Expects: __typename===FolderOutput
+        if (createFolderResult.data.createFolderV2.__typename === "FolderErrorDuplicateNameOutput") {
+            console.log("Folder already exists!");
+        }
+        if (createFolderResult.data.createFolderV2.__typename === "FolderErrorOperationNotAllowedOutput"){
+            console.log("Create folder not allowed! Verify your token");
+            return;
+        }
+        folderId = createFolderResult.data.createFolderV2.id;
+        console.log(`Folder id: ${folderId}`);
+    }
 
 
     const createAssetResult = await createAsset({
-        // folderId: folderId,
-        folderId: options.parentFolderId,
+        folderId,
         name: assetName,
-        assetType: "OBJ_UPLOAD",
-        // assetType: "COARSE_REGISTRATION_UPLOAD",
+        assetType,
         });
 
     // Expects: __typename===GroupedAssetOutput
