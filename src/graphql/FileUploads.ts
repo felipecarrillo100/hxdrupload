@@ -92,7 +92,8 @@ export async function uploadFiles(options: {
 
         // Expects: __typename===FolderOutput
         if (createFolderResult.data.createFolderV2.__typename === "FolderErrorDuplicateNameOutput") {
-            console.log("Folder already exists!");
+            console.log(`Folder already exists! ${folderName}`);
+            return;
         }
         if (createFolderResult.data.createFolderV2.__typename === "FolderErrorOperationNotAllowedOutput"){
             console.log("Create folder not allowed! Verify your token");

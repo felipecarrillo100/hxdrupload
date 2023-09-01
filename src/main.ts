@@ -59,13 +59,24 @@ program.parse();
 
 
 function produceTemplate( options: any) {
+    let assetType = "OBJ_UPLOAD";
+    switch (options.type.toLowerCase()) {
+        case "las":
+            assetType = "LAS_UPLOAD"
+            break;
+        case "e57":
+            assetType = "E57_UPLOAD"
+            break;
+        default:
+
+    }
     const upload = {
        inputFolder: "Local disk folder containing the assets to upload",
        assetName: "name to use in HxDR for the new asset asset",
        folderName:"Optional, a name for the new folder that will contain the asset, if this name is missing the asset will be placed in the parentFolderId",
        projectId:"ID of the existing project",
        parentFolderId:"ID of the existing folder to place the asset",
-       assetType: (options.type === "e57" ? "E57_UPLOAD" : "OBJ_UPLOAD"),
+       assetType,
     }
 
     const jsonContent = JSON.stringify(upload, null, 2);
