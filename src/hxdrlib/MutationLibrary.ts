@@ -1,4 +1,3 @@
-import {CreateClient} from "../graphql/GraphqlClient";
 import {
     CompleteAssetFile,
     CreateAssetV2, CreateAssetV3,
@@ -6,8 +5,8 @@ import {
     CreateFolder, DeleteFolder,
     FileUploadURL,
     FinalizeAsset
-} from "./graphql.mutations";
-
+} from "./queries/graphql.mutations";
+import {ApolloClient, NormalizedCacheObject} from "@apollo/client";
 
 export enum AssetTypeEnum {
     OBJ_UPLOAD="OBJ_UPLOAD",
@@ -26,8 +25,8 @@ export interface URLCHUNK {
 
 let client = null;
 
-export function initializeGraphQlClient() {
-    client =  CreateClient();
+export function initializeGraphQlClient(aClient:  ApolloClient<NormalizedCacheObject>) {
+    client =  aClient;
 }
 
 export function createFolder(params: {

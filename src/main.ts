@@ -1,9 +1,12 @@
-import {getFileInfoFromFolder} from "./fileupload/GetFilesInFolder";
-import {validExtension} from "./fileupload/fileutils";
+import {getFileInfoFromFolder} from "./fileutils/GetFilesInFolder";
+import {validExtension} from "./fileutils/fileutils";
 import {uploadFiles} from "./hxdrlib/FileUploads";
 import {AppSettings} from "./settings/AppSettings";
 import {AssetTypeEnum, initializeGraphQlClient} from "./hxdrlib/MutationLibrary";
 import {Command} from "commander";
+import {GraphqlClient} from "./graphql/GraphqlClient";
+import introspection from "./hxdrlib/introspection";
+import {fetch} from "./fetchutils/fetch";
 
 const fs = require('fs');
 const tokenPath = './token.json';
@@ -12,20 +15,17 @@ if (fs.existsSync(tokenPath)) {
     const inputsRaw = fs.readFileSync(tokenPath);
     const inputs = JSON.parse(inputsRaw);
     AppSettings.setToken(inputs.token);
-    initializeGraphQlClient();
+
+    const uri = `${AppSettings.HxDRServer}/graphql`; // <-- add the URL of the GraphQL server here
+    const graphqlClient = new GraphqlClient({
+        accessTokeProvider: AppSettings.getToken,
+        uri,
+        possibleTypes: introspection.possibleTypes,
+        fetch: fetch
+    });
+    const client = graphqlClient.createClient();
+    initializeGraphQlClient(client);
 }
-
-//const files = getFileInfoFromFolder("C:\\git\\ortho2obj\\outputsingletile");
-// const files = getFileInfoFromFolder("C:\\git\\ortho2obj\\outputscale5");
-// const files = getFileInfoFromFolder("C:\\git\\ortho2obj\\outputfull");
-// const files = getFileInfoFromFolder("C:\\git\\ortho2obj\\output100jpg");
-// const targetFiles = files.filter(f=>validExtension(f.name, ["jpg", "obj", "mtl", "prj", "png", "e57"]));
-
-// for(const file of targetFiles) {
-//    console.log(JSON.stringify(file));
-// }
-
-
 
 const program = new Command();
 program

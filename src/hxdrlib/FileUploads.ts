@@ -1,5 +1,5 @@
-import {FilesInFolder} from "../fileupload/GetFilesInFolder";
-import {uploadFileInChunks} from "../fileupload/upload";
+import {FilesInFolder} from "../fileutils/GetFilesInFolder";
+import {uploadFileInChunks} from "./UploadFileInChunks";
 import {
     addFileToAsset, AssetTypeEnum,
     CompleteChunkUpload,
@@ -60,8 +60,6 @@ function uploadFileInParts(fileId: string, file: FilesInFolder) {
         });
     })
 }
-
-
 
 export async function uploadFiles(options: {
     folderName: string;
