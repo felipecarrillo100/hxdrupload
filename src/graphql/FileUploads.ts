@@ -1,4 +1,4 @@
-import {FilesInFolder} from "./GetFilesInFolder";
+import {FilesInFolder} from "../fileupload/GetFilesInFolder";
 import {uploadFileInChunks} from "../fileupload/upload";
 import {
     addFileToAsset, AssetTypeEnum,
@@ -7,7 +7,7 @@ import {
     createFolder, ETAGCHUNK,
     FileUploadSignedUrl,
     TriggerPipeline, URLCHUNK
-} from "./MutationLibrary";
+} from "../hxdrlib/MutationLibrary";
 
 // const MAX_CHUNK_SIZE =  50000000;
 // const MAX_CHUNK_SIZE =  10485760;  // 10 MB

@@ -1,4 +1,4 @@
-import {CreateClient} from "./GraphqlClient";
+import {CreateClient} from "../graphql/GraphqlClient";
 import {
     CompleteAssetFile,
     CreateAssetV2, CreateAssetV3,

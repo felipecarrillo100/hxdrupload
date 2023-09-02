@@ -1,16 +1,16 @@
 import fetch  from "cross-fetch";
 import fs from "fs";
-import {ETAGCHUNK, URLCHUNK} from "../graphql/MutationLibrary";
-import {fetchRetry} from "../fetchretry/fetchretry";
+import {ETAGCHUNK, URLCHUNK} from "../hxdrlib/MutationLibrary";
+import {fetchRetry} from "../fetchutils/fetchretry";
+import {loadFileChunkSync} from "./fileutils";
 const mime = require('mime');
 
-export function uploadFileInChunks(urlchunks:URLCHUNK[], file: string, chunkSize: number, counter: number) {
+export function uploadFileInChunks(urlChunks:URLCHUNK[], file: string, chunkSize: number, counter: number) {
     return new Promise<ETAGCHUNK[]>(resolve=>{
-        const buffer = fs.readFileSync(file);
         const mime_type = mime.getType(file)
 
         function processChunk(url: string, chunk: any, part: number) {
-            return new Promise(resolve => {
+            return new Promise<ETAGCHUNK>(resolve => {
                 fetchRetry(url, 100, 5, {
                     method: 'PUT',
                     body: chunk,
@@ -39,14 +39,17 @@ export function uploadFileInChunks(urlchunks:URLCHUNK[], file: string, chunkSize
         }
 
         const promisesToChunks = [];
+        let offset = 0;
+        const filePointer = fs.openSync(file, 'r');
         for (let i=0; i<counter; ++i) {
-            const urlChunk = urlchunks.find(urlchunk => urlchunk.part === i+1);
-            const start = i * chunkSize;
-            const end = start + chunkSize ;
-            const chunk = buffer.subarray(start, end);
+            const chunk = loadFileChunkSync({filePointer, chunkSize, start: offset, size:chunkSize})
+            const bytesRead = chunk.length;
+            offset += bytesRead;
+            const urlChunk = urlChunks.find(urlChunk => urlChunk.part === i + 1);
             const promise = processChunk(urlChunk.url, chunk, urlChunk.part);
             promisesToChunks.push(promise);
         }
+        fs.close(filePointer);
         Promise.all(promisesToChunks).then((etags:ETAGCHUNK[])=>{
             resolve(etags);
         })

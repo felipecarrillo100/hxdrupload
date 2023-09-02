@@ -21,5 +21,12 @@ export function validExtension(filename, allowedFiles: string[]) {
 
 export function getFileExtension(filename: string) {
     return filename.split('.').pop();
+}
 
+export function loadFileChunkSync(d: {fileName?: string, start: number, size: number, chunkSize: number, filePointer?: number}) {
+    const filePointer = d.filePointer ? d.filePointer : fs.openSync(d.fileName, 'r');
+    const chunkBuffer = Buffer.alloc(d.chunkSize);
+    let bytesRead = fs.readSync(filePointer, chunkBuffer, 0, d.size, d.start);
+    if (!d.filePointer) fs.closeSync(filePointer);
+    return chunkBuffer.subarray(0, bytesRead);
 }

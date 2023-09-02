@@ -1,8 +1,8 @@
-import {getFileInfoFromFolder} from "./graphql/GetFilesInFolder";
+import {getFileInfoFromFolder} from "./fileupload/GetFilesInFolder";
 import {validExtension} from "./fileupload/fileutils";
 import {uploadFiles} from "./graphql/FileUploads";
 import {AppSettings} from "./settings/AppSettings";
-import {AssetTypeEnum, initializeGraphQlClient} from "./graphql/MutationLibrary";
+import {AssetTypeEnum, initializeGraphQlClient} from "./hxdrlib/MutationLibrary";
 import {Command} from "commander";
 
 const fs = require('fs');
